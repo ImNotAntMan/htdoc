@@ -25,5 +25,5 @@ if(empty($_POST)) {
         <input type="text" name="password" placeholder="비번 입력하세요"><br>
         <input type="submit" value="저장">
     </form>
-</body>
+</body> 
 </html>
