@@ -23,8 +23,8 @@ if(empty($errMessage)) {
 // 2.
 // 사용자명 또는 비밀번호 중 하나라도 입력하지 않았으면 다시 로그인폼 화면으로 돌려 보낸다.
 if(empty($username) || empty($password)) {
-    echo "<script>alert('ddddd.')</script>";
-    header('Location: step1_RegistForm.php?err='.'dddddd');
+    // echo "<script>alert('ddddd.')</script>";
+    header('Location: step1_RegistForm.php?err=');
 }
 
 // 3.1 데이터베이스 연결
@@ -38,28 +38,28 @@ if(is_null($dbconn)) {
     echo "데이터베이스 연결에 문제가 생겼습니다.";
 }
 $sql = "select username from users where username='".$username."'";
-echo $sql;
 $result = mysqli_query($dbconn, $sql);
-var_dump($result);
 if($result->num_rows > 0) {
     echo "<script>alert('이미 가입하신 분입니다.')</script>";
     header('Location: step1_RegistForm.php?'.'dddddafsfdad');
 } else {
 // 3.2 sql문 구성
-    $sql = $dbconn -> stmt_init();
-    $sql = $dbconn -> prepare("insert into users (username, userpwd, email) values(?, ?, ?)");
-// $sql = "insert into users (username, userpwd, email) values('".$username."','".$password."','".$email."')";
-    $sql -> bind_param("sss", $username, $password, $email);
-    $sql ->execute();
-// 4, 5.
-    if($sql) {
-        $sql -> close();
-        var_dump($sql);
-        // header('Location: step1_LoginForm.php');
+    $stmt = $dbconn -> stmt_init();
+    $stmt = $dbconn -> prepare("insert into users (username, userpwd, email) values(?, sha2(?, 256), ?)");
+// $sql = "insert into users (username, userpwd, email) values('".$username."', sha2('".$password."', 256),'".$email."')";
+    $stmt -> bind_param("sss", $username, $password, $email);
+    $stmt ->execute();
+    $result = $stmt->get_result();
+    // 4, 5.
+    var_dump($result)."<br>";
+    if($stmt) {
+        var_dump($stmt)."<br>";
+        $stmt -> close();
+        header('Location: step1_LoginForm.php');
     } else {
-        $sql -> close();
-        var_dump($sql);
-        // header('Location: step1_RegistForm.php');
+        var_dump($stmt)."<br>";
+        $stmt -> close();
+        header('Location: step1_RegistForm.php');
     }
 }
 ?>

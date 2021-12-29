@@ -13,7 +13,7 @@
 // 1.
 $username = $_POST['username'];
 $password = $_POST['password'];
-$email = $_POST['email'];
+//$email = $_POST['email'];
 
 // 2.
 // 사용자명 또는 비밀번호 중 하나라도 입력하지 않았으면 다시 로그인폼 화면으로 돌려 보낸다.
@@ -34,24 +34,22 @@ if(is_null($dbconn)) {
 }
 
 // 3.2 sql문 구성
-$sql = "select * from users where username='".$username."'";
-echo $sql;
+$stmt = $dbconn -> stmt_init();
+$stmt = $dbconn -> prepare("select * from users where username = ? and userpwd = sha2(?, 256)");
+$stmt -> bind_param("ss", $username, $password);
+$stmt ->execute();
+$result = $stmt->get_result();
 
 // 4, 5.
-$resultset = mysqli_query($dbconn, $sql);
-var_dump($resultset);
+//$resultset = mysqli_query($dbconn, $sql);
+//var_dump($resultset);
 
-if($resultset->num_rows > 0) {
-    echo "True";
-    while($row = mysqli_fetch_array($resultset))
-    if($password == $row['userpwd']) {
-        header('Location: step1_LoginSucess.php');
-    } else {
-        echo "<script>alert('비밀번호가 틀렸습니다.')</script>";
-//        header('Location: step1_LoginForm.php?'.'비밀번호 오류');
-    }
+if($result->num_rows > 0) {
+    //echo "<script>alert('".$username."');</script>";
+    echo "<script>alert('".$username."환영');</script>";
+    header('Location: step1_LoginSucess.php');
 } else {
     echo "<script>alert('사용자가 존재하지 않습니다.')</script>";
-//    header('Location: step1_LoginForm.php?'.'존재하지 않는 사용자');
+    header('Location: step1_LoginForm.php?'.'존재하지 않는 사용자');
 }
 ?>
