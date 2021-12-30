@@ -54,9 +54,11 @@ require "dbconfig.php";
                 echo "<td>";
                 echo "<a href='memo_delete.php?memoid=".$row['memoid']."'>삭제</a>";
                 echo "</td>";
-                echo "<td>";
-                echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
-                echo "</td>";
+                if($modifyset -> num_rows > 0) {
+                    echo "<td>";
+                    echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
+                    echo "</td>";
+                }
                 echo "<td>";
                 // echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>되돌리기</a>";
                 echo "</td>";
