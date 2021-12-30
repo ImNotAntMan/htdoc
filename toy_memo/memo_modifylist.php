@@ -4,6 +4,7 @@ $content = "테스트";
 $datestream = date("Y-m-d", time());
 $username = "username";
 $userid = 1;
+$memoid = $_GET['memoid'];
 require "dbconfig.php";
 
 ?>
