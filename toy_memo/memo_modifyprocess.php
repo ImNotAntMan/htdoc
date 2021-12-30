@@ -13,21 +13,23 @@
 
 <?php
   // db연결 준비
-  require "./dbconfig.php";
+  require "dbconfig.php";
 
   function stmtupdate($i, $subject, $contents, $memoid) {
-    if($i == 0) {
-        $msg = "제목, 내용 변경";
-        $stmt = $conn->prepare("UPDATE toymemo SET subject = ?, contents = ?  WHERE memoid = ?" );
+    if($i == 0) {   // 제목, 내용 변경
+        $stmt = $conn->prepare("UPDATE toymemo SET subject = ?, SET contents = ?  WHERE memoid = ?" );
         $stmt->bind_param("sss", $subject, $contents, $memoid);
-    } else if ($i == 1) {
-        $msg = "내용 변경";
+    } else if ($i == 1) {   // 내용 변경
         $stmt = $conn->prepare("UPDATE toymemo SET contents = ? WHERE memoid = ?" );
         $stmt->bind_param("ss", $contents, $memoid);
-    } else if ($i == 2) {
-        $msg = "제목 변경";
-        $stmt = $conn->prepare("UPDATE toymemo SET subject = ?  WHERE memoid = ?" );
+    } else if ($i == 2) {   // 제목 변경
+        echo $subject;
+        echo $contents;
+        echo $memoid;
+        $stmt = $conn->prepare("UPDATE toymemo SET subject = ? WHERE memoid = ?");
         $stmt->bind_param("ss", $subject, $memoid);
+    } else {
+
     }
     $stmt->execute();
   }
@@ -49,29 +51,44 @@
   $sql = "select * from toymemo where memoid=".$memoid." order by registdate desc";
   $resultset = $conn->query($sql);
   if($resultset->num_rows > 0) {
-    $row = $resultset->fetch_assoc();
-    $originalsubject = $row['subject'];
-    $originalcontents = $row['contents'];
+        $row = $resultset->fetch_assoc();
+        $originalsubject = $row['subject'];
+        $originalcontents = $row['contents'];
 }
 
   // 두 값을 비교하여 수정 사항이 어떤건지 알아내자.
   if(($subject != $originalsubject) && ($contents != $originalcontents)) {
-        $i = 0; // 제목, 내용 변경
-        stmtupdate($i, $subject, $contents, $memoid);
-        stmtinsert($userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+        $msg = "제목, 내용 변경";
+        $stmt = $conn->prepare("UPDATE toymemo SET subject = ?, contents = ? WHERE memoid = ?");
+        $stmt->bind_param("sss", $subject, $contents, $memoid);
+        $stmt->execute();    
+        $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+        $stmt->execute();    
 
     } else if (($subject == $originalsubject) && ($contents != $originalcontents)) {
-        $i = 1; // 내용 변경
-        stmtupdate($i, $subject, $contents, $memoid);
-        stmtinsert($userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+        $msg = "내용 변경";
+        $stmt = $conn->prepare("UPDATE toymemo SET contents = ? WHERE memoid = ?");
+        $stmt->bind_param("ss", $contents, $memoid);
+        $stmt->execute();    
+        $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+        $stmt->execute();    
   } else if(($subject != $originalsubject) && ($contents == $originalcontents)) {
-    $i = 2; // 제목 변경
-    stmtupdate($i, $subject, $contents, $memoid);
-    stmtinsert($userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+        $msg = "제목 변경";
+        $stmt = $conn->prepare("UPDATE toymemo SET subject = ? WHERE memoid = ?");
+        $stmt->bind_param("ss", $subject, $memoid);
+        $stmt->execute();    
+        $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+        $stmt->execute();    
+// $i = 2; // 제목 변경
+    //     stmtupdate($i, $subject, $contents, $memoid);
+        //  stmtinsert($userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
 
   } else {
-    $msg = "뭘 하실려구??";
-    echo "<script>alert('".$msg."')</script>";
+        $msg = "뭘 하실려구??";
+        echo "<script>alert('".$msg."')</script>";
   }
 
   // 데이터베이스 연결 인터페이스 리소스를 반납한다.
