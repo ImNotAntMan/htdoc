@@ -52,8 +52,8 @@
     $stmt->execute();    
   } else if (($subject == $originalsubject) && ($contents != $originalcontents)) {
     $msg = "내용 변경";
-    $stmt = $conn->prepare("UPDATE toymemo contents = ?  WHERE memoid = ?" );
-    $stmt->bind_param("ss", $contents, $memoid);
+    $stmt = $conn->prepare("UPDATE toymemo SET contents = ?  WHERE memoid = ?" );
+    $stmt->bind_param("si", $contents, $memoid);
     $stmt->execute();
       
     // 수정이 처음일 때 처리하는 루틴
@@ -85,7 +85,7 @@
     }
   
     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $msg);
+    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $modify);
     $stmt->execute();
   
   } else {
