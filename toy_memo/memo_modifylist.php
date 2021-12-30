@@ -24,28 +24,24 @@ require "dbconfig.php";
         <?php
         //    $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
            $sql = "SELECT toymemoupdate.memoid, toymemoupdate.userid,toymemoupdate.modifyid, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modifydate, toymemoupdate.modify, toymemo.registdate FROM toymemo INNER JOIN toymemoupdate ON toymemo.memoid = toymemoupdate.memoid WHERE toymemoupdate.memoid=".$memoid." ORDER BY modifydate DESC;";
-           //$sql = "select toymemo.memoid,toymemo.userid, toymemo.subject, toymemo.contents, toymemoupdate.modifyid, toymemoupdate.modifydate, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modify from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
 
            $resultset = $conn->query($sql);
-
            if($resultset->num_rows > 0) {
             while( $row = $resultset->fetch_assoc() ) {
                 $subject = $row['subject'];
                 $modifydate = $row['modifydate'];
                 $modify = $row['modify'];
-                if(empty($modifydate)) {
-                    $modifydate = "수정이력이 없습니다.";
-                }
+                $memoid = $row['memoid'];
+                $userid = $row['userid'];
+                $modifyid = $row['modifyid'];
                 echo "<tr>";
                 echo "<td>";
-                echo "<a href='memo_updateview.php?memoid=".$row['memoid']."&userid=".$row['userid']."&modifyid=".$row['modifyid']."'>";
+                echo "<a href='memo_updateview.php?memoid=".$memoid."&userid=".$userid."&modifyid=".$modifyid."'>";
                 echo $subject;
                 echo "</a>";
                 echo "</td>";
                 echo "<td>";
                 echo $modifydate."<br>";
-                echo "</td>";
-                echo "<td>";
                 echo "</td>";
                 echo "<td>";
                 echo $modify;
@@ -54,9 +50,47 @@ require "dbconfig.php";
                 echo "</td>";
                 echo "<td>";
                 echo "</td>";
+                echo "<td>";
+                echo "</td>";
                 echo "</tr>";
-             } 
-            } 
+             }
+            }  else {
+                echo "<tr>";
+                echo "<td>";
+                echo "";
+                echo "</td>";
+                echo "<td>";
+                echo "<br>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "</tr>";
+                echo "<tr>";
+                echo "<td>";
+                echo "";
+                echo "</td>";
+                echo "<td>";
+                echo "수정 이력이 없습니다.<br>";
+                echo "</td>";
+                echo "<td>";
+                echo "";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "</tr>";
+
+             }
         ?>
     </table>
     <table>
