@@ -23,7 +23,8 @@ require "dbconfig.php";
         </tr>
         <?php
         //    $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
-           $sql = "select toymemo.memoid,toymemo.userid, toymemo.subject, toymemo.contents, toymemoupdate.modifydate, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modify from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
+           $sql = "SELECT toymemoupdate.memoid, toymemoupdate.userid,toymemoupdate.modifyid, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modifydate, toymemoupdate.modify, toymemo.registdate FROM toymemo INNER JOIN toymemoupdate ON toymemo.memoid = toymemoupdate.memoid WHERE toymemoupdate.memoid=".$memoid." ORDER BY modifydate DESC;";
+           //$sql = "select toymemo.memoid,toymemo.userid, toymemo.subject, toymemo.contents, toymemoupdate.modifyid, toymemoupdate.modifydate, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modify from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
 
            $resultset = $conn->query($sql);
 
@@ -37,7 +38,7 @@ require "dbconfig.php";
                 }
                 echo "<tr>";
                 echo "<td>";
-                echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
+                echo "<a href='memo_updateview.php?memoid=".$row['memoid']."&userid=".$row['userid']."&modifyid=".$row['modifyid']."'>";
                 echo $subject;
                 echo "</a>";
                 echo "</td>";

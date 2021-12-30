@@ -21,12 +21,12 @@ require "dbconfig.php";
         <th>제목</th><th>생성일<br>최종수정일</th><th>사용자이름</th><th></th><th></th><th></th>
         </tr>
         <?php
-           $sql = "SELECT * FROM toymemo where userid=".$userid;
-           //$sql = "select  toymemo.subject,toymemo.memoid, toymemo.contents, toymemoupdate.modifydate from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." ORDER by modifydate LIMIT 0,1" ;
+           $sql = "SELECT * FROM toymemo where userid=".$userid." order by registdate desc";
+           //$sql = "SELECT toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modifydate, toymemoupdate.modify, toymemo.registdate FROM toymemo INNER JOIN toymemoupdate ON toymemo.memoid = toymemoupdate.memoid WHERE toymemoupdate.memoid=".$memoid." ORDER BY modifydate DESC;" ;
            $resultset = $conn->query($sql);
 
            if($resultset->num_rows > 0) {
-            while( $row = $resultset->fetch_assoc() ) {
+            while($row = $resultset->fetch_assoc()) {
                 $sqlupdate = "select modifydate from toymemoupdate where memoid=".$row['memoid']." order by modifydate desc";
                 $modifyset = $conn->query($sqlupdate);
                 if($modifyset -> num_rows > 0) {
@@ -56,6 +56,9 @@ require "dbconfig.php";
                 echo "</td>";
                 echo "<td>";
                 echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
+                echo "</td>";
+                echo "<td>";
+                echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>되돌리기</a>";
                 echo "</td>";
                 echo "</tr>";
             }

@@ -39,16 +39,16 @@
     $stmt->execute();
 
     // 수정이 처음일 때 처리하는 루틴
-    $sql = "select * from toymemoupdate where memoid=".$memoid;
-    $resultset = $conn->query($sql);
-    if($resultset->num_rows <= 0) {   //수정이력 사항이 없을 때 처음으로 원본을 넣어 줌.
-        $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
-        $stmt->execute();
-    }
+    // $sql = "select * from toymemoupdate where memoid=".$memoid;
+    // $resultset = $conn->query($sql);
+    // if($resultset->num_rows <= 0) {   //수정이력 사항이 없을 때 처음으로 원본을 넣어 줌.
+    //     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
+    //     $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+    //     $stmt->execute();
+    // }
 
     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $msg);
+    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
     $stmt->execute();    
   } else if (($subject == $originalsubject) && ($contents != $originalcontents)) {
     $msg = "내용 변경";
@@ -57,16 +57,16 @@
     $stmt->execute();
       
     // 수정이 처음일 때 처리하는 루틴
-    $sql = "select * from toymemoupdate where memoid=".$memoid;
-    $resultset = $conn->query($sql);
-    if($resultset->num_rows <= 0) {   //수정이력 사항이 없을 때 처음으로 원본을 넣어 줌.
-        $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
-        $stmt->execute();
-    }
+    // $sql = "select * from toymemoupdate where memoid=".$memoid;
+    // $resultset = $conn->query($sql);
+    // if($resultset->num_rows <= 0) {   //수정이력 사항이 없을 때 처음으로 원본을 넣어 줌.
+    //     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
+    //     $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+    //     $stmt->execute();
+    // }
 
     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $msg);
+    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
     $stmt->execute();
       
   } else if(($subject != $originalsubject) && ($contents == $originalcontents)) {
@@ -76,16 +76,16 @@
     $stmt->execute();
     
     // 수정이 처음일 때 처리하는 루틴
-    $sql = "select * from toymemoupdate where memoid=".$memoid;
-    $resultset = $conn->query($sql);
-    if($resultset->num_rows <= 0) {   //수정이력 사항이 없을 때 처음으로 원본을 넣어 줌.
-        $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
-        $stmt->execute();
-    }
+    // $sql = "select * from toymemoupdate where memoid=".$memoid;
+    // $resultset = $conn->query($sql);
+    // if($resultset->num_rows <= 0) {   //수정이력 사항이 없을 때 처음으로 원본을 넣어 줌.
+    //     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
+    //     $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
+    //     $stmt->execute();
+    // }
   
     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $msg);
+    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $originalsubject, $originalcontents, $msg);
     $stmt->execute();
   
   } else {
