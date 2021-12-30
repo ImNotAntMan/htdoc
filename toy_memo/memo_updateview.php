@@ -46,6 +46,6 @@ $conn->close();
     <br>
     <a href="memo_modify.php?memoid=<?=$memoid?>">수정</a>
     <a href="index.php">리스트</a>
-    <a href="delete_memo.php?memoid=<?=$memoid?>">삭제</a>
+    <a href="memo_delete.php?memoid=<?=$memoid?>">삭제</a>
  </body>
 </html>
