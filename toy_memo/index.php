@@ -27,6 +27,9 @@ require "dbconfig.php";
 
            if($resultset->num_rows > 0) {
             while( $row = $resultset->fetch_assoc() ) {
+                $sqlupdate = "select modifydate from toymemoupdate where memoid=".$row['memoid']." order by modifydate desc";
+                $modifyset = $conn->query($sqlupdate);
+                $rowmodify = $modifyset->fetch_assoc();
                 echo "<tr>";
                 echo "<td>";
                 echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
@@ -35,7 +38,7 @@ require "dbconfig.php";
                 echo "</td>";
                 echo "<td>";
                 echo $row['registdate']."<br>";
-                echo $row['registdate'];
+                echo $rowmodify['modifydate'];
                 echo "</td>";
                 echo "<td>";
                 echo $row['userid']."홍길동";
