@@ -85,7 +85,7 @@
     }
   
     $stmt = $conn->prepare("INSERT INTO toymemoupdate(userid, memoid, modifydate, subject, contents, modify) VALUES(?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $modify);
+    $stmt->bind_param("ssssss", $userid, $memoid, $registdate, $subject, $contents, $msg);
     $stmt->execute();
   
   } else {
