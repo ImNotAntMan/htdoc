@@ -20,7 +20,7 @@
   $userid = $_POST['userid'];
   $subject = $_POST['subject'];
   $contents = $_POST['contents'];
-  $registdate = date("Y-m-d", time());
+  $registdate = date("Y-m-d H:i:s");
   
   // create connection
   // get connection 하는 코드를 adbconfig로 이동하며... 

@@ -22,13 +22,7 @@ require "dbconfig.php";
         </tr>
         <?php
            $sql = "SELECT * FROM toymemo where userid=".$userid;
-           $sqljoin = "select
-           toymemo.subject,
-           toymemo.contents,
-           toymemoupdate.modifydate
-           from toymemo
-           LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid";
-
+           //$sql = "select  toymemo.subject,toymemo.memoid, toymemo.contents, toymemoupdate.modifydate from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." ORDER by modifydate LIMIT 0,1" ;
            $resultset = $conn->query($sql);
 
            if($resultset->num_rows > 0) {

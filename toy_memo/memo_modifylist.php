@@ -23,12 +23,7 @@ require "dbconfig.php";
         </tr>
         <?php
            $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
-           $sqljoin = "select
-           toymemo.subject,
-           toymemo.contents,
-           toymemoupdate.modifydate
-           from toymemo
-           LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid";
+           $sql = "select toymemo.subject, toymemo.contents, toymemoupdate.modifydate from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
 
            $resultset = $conn->query($sql);
 
@@ -36,25 +31,25 @@ require "dbconfig.php";
             while( $row = $resultset->fetch_assoc() ) {
                 echo "<tr>";
                 echo "<td>";
-                echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
+                // echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
                 echo $row['subject'];
                 echo "</a>";
                 echo "</td>";
                 echo "<td>";
                 echo $row['modifydate']."<br>";
-                echo $row['registdate'];
+                // echo $row['registdate'];
                 echo "</td>";
                 echo "<td>";
-                echo $row['userid']."홍길동";
+                // echo $row['userid']."홍길동";
                 echo "</td>";
                 echo "<td>";
-                echo "<a href='memo_modify.php?memoid=".$row['memoid']."'>수정</a>";
+                // echo "<a href='memo_modify.php?memoid=".$row['memoid']."'>수정</a>";
                 echo "</td>";
                 echo "<td>";
-                echo "<a href='memo_delete.php?memoid=".$row['memoid']."'>삭제</a>";
+                // echo "<a href='memo_delete.php?memoid=".$row['memoid']."'>삭제</a>";
                 echo "</td>";
                 echo "<td>";
-                echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
+                // echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -65,6 +60,7 @@ require "dbconfig.php";
         <tr>
             <td>
                 <a href="memo_writeForm.html">새로운 메모 작성</a>
+                <a href="index.php">리스트로 돌아가기</a>
             </td>
         </tr>
     </table>
