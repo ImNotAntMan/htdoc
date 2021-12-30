@@ -14,13 +14,14 @@ if($resultset->num_rows > 0) {
     $contents = $row['contents'];
     $registdate = $row['registdate'];
 }
-$sqlupdate = "select modifydate from toymemoupdate where memoid=".$row['memoid']." order by modifydate desc";
+$sqlupdate = "SELECT * FROM toymemoupdate WHERE memoid=".$row['memoid'];
 $modifyset = $conn->query($sqlupdate);
-if($resultset->num_rows > 0) {
+if($modifyset->num_rows > 0) {
     $row = $modifyset->fetch_assoc();
     $modifydate = $row['modifydate'];
+} else {
+  $modifydate = "수정 이력이 없음.";
 }
-$rowmodify = $modifyset->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@ $rowmodify = $modifyset->fetch_assoc();
   <h1>메모 보기</h1>
     <input type="hidden" value="1" name="userid">
     <label>생성일 : </label><input maxlength="140" type="text" name="registdate" value="<?=$registdate?>" /><br>
-    <label>최종수정일 : </label><input maxlength="140" type="text" name="registdate" value="<?=$modifydate?>" /><br>
+    <label>최종수정일 : </label><input maxlength="140" type="text" name="modifydate" value="<?=$modifydate?>" readonly /><br>
     <label>제목 : </label><input type="text" name="subject" value="<?=$subject?>"/><br>
     <label>내용 : </label><input type="textbox" name="contents" value="<?=$contents?>" /><br>
     <br>
