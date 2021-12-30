@@ -22,37 +22,57 @@ require "dbconfig.php";
         <th>제목</th><th>생성일<br>최종수정일</th><th>사용자이름</th><th></th><th></th><th></th>
         </tr>
         <?php
-           $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
+        //    $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
            $sql = "select toymemo.subject, toymemo.contents, toymemoupdate.modifydate from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
 
            $resultset = $conn->query($sql);
 
            if($resultset->num_rows > 0) {
             while( $row = $resultset->fetch_assoc() ) {
+                $subject = $row['subject'];
+                $modifydate = $row['modifydate'];
+                if(empty($modifydate)) {
+                    $modifydate = "수정이력이 없습니다.";
+                }
                 echo "<tr>";
                 echo "<td>";
-                // echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
-                echo $row['subject'];
+                echo $subject;
                 echo "</a>";
                 echo "</td>";
                 echo "<td>";
-                echo $row['modifydate']."<br>";
-                // echo $row['registdate'];
+                echo $modifydate."<br>";
                 echo "</td>";
                 echo "<td>";
-                // echo $row['userid']."홍길동";
                 echo "</td>";
                 echo "<td>";
-                // echo "<a href='memo_modify.php?memoid=".$row['memoid']."'>수정</a>";
                 echo "</td>";
                 echo "<td>";
-                // echo "<a href='memo_delete.php?memoid=".$row['memoid']."'>삭제</a>";
                 echo "</td>";
                 echo "<td>";
-                // echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
                 echo "</td>";
                 echo "</tr>";
-            }
+             } 
+            } else {
+                $subject = $row['subject']."수정이력이 없습니다.";
+                $modifydate = "수정이력이 없습니다.";
+                echo "<tr>";
+                echo "<td>";
+                echo $subject;
+                echo "</a>";
+                echo "</td>";
+                echo "<td>";
+                echo $modifydate."<br>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "<td>";
+                echo "</td>";
+                echo "</tr>";
+
         }
         ?>
     </table>
