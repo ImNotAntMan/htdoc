@@ -23,7 +23,7 @@ require "dbconfig.php";
         </tr>
         <?php
         //    $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
-           $sql = "select toymemo.subject, toymemo.contents, toymemoupdate.modifydate, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modify from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
+           $sql = "select toymemo.memoid, toymemo.subject, toymemo.contents, toymemoupdate.modifydate, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modify from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
 
            $resultset = $conn->query($sql);
 
