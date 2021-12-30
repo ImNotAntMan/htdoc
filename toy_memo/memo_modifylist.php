@@ -13,7 +13,7 @@ require "dbconfig.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메모 프로그램</title>
+    <title>메모 수정 이력</title>
 </head>
 <body>
     <table>
@@ -21,7 +21,7 @@ require "dbconfig.php";
         <th>제목</th><th>생성일<br>최종수정일</th><th>사용자이름</th><th></th><th></th><th></th>
         </tr>
         <?php
-           $sql = "SELECT * FROM toymemo where userid=".$userid;
+           $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
            $sqljoin = "select
            toymemo.subject,
            toymemo.contents,
@@ -40,7 +40,7 @@ require "dbconfig.php";
                 echo "</a>";
                 echo "</td>";
                 echo "<td>";
-                echo $row['registdate']."<br>";
+                echo $row['modifydate']."<br>";
                 echo $row['registdate'];
                 echo "</td>";
                 echo "<td>";
