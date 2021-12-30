@@ -29,7 +29,12 @@ require "dbconfig.php";
             while( $row = $resultset->fetch_assoc() ) {
                 $sqlupdate = "select modifydate from toymemoupdate where memoid=".$row['memoid']." order by modifydate desc";
                 $modifyset = $conn->query($sqlupdate);
-                $rowmodify = $modifyset->fetch_assoc();
+                if($modifyset -> num_rows > 0) {
+                    $rowmodify = $modifyset->fetch_assoc();
+                    $modifydate = $rowmodify['modifydate'];
+                } else {
+                    $modifydate = "수정이력없음.";
+                }
                 echo "<tr>";
                 echo "<td>";
                 echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
@@ -38,7 +43,7 @@ require "dbconfig.php";
                 echo "</td>";
                 echo "<td>";
                 echo $row['registdate']."<br>";
-                echo $rowmodify['modifydate'];
+                echo $modifydate;
                 echo "</td>";
                 echo "<td>";
                 echo $row['userid']."홍길동";
