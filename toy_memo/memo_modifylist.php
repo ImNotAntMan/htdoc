@@ -37,6 +37,7 @@ require "dbconfig.php";
                 }
                 echo "<tr>";
                 echo "<td>";
+                echo "<a href='memo_view.php?memoid=".$row['memoid']."&userid=".$row['userid']."'>";
                 echo $subject;
                 echo "</a>";
                 echo "</td>";
