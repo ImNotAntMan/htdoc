@@ -58,7 +58,7 @@ require "dbconfig.php";
                 echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>수정이력</a>";
                 echo "</td>";
                 echo "<td>";
-                echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>되돌리기</a>";
+                // echo "<a href='memo_modifylist.php?memoid=".$row['memoid']."'>되돌리기</a>";
                 echo "</td>";
                 echo "</tr>";
             }
