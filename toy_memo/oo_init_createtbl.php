@@ -88,6 +88,9 @@
     `modifyid` INT(6) NOT NULL AUTO_INCREMENT , 
     `userid` INT(6) NOT NULL COMMENT 'user id' , 
     `memoid` INT(6) NOT NULL COMMENT 'memo id' , 
+    `subject` VARCHAR(256) NOT NULL COMMENT 'user subject' , 
+    `contents` text NOT NULL COMMENT 'user contents' , 
+    `modify` VARCHAR(60) NOT NULL COMMENT 'user modify reason' , 
     `modifydate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'modify date' ,  
     PRIMARY KEY (`modifyid`)
     ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci COMMENT = 'users memo modify date table';";

@@ -3,7 +3,7 @@ $subject = "테스트";
 $content = "테스트";
 $datestream = date("Y-m-d", time());
 $username = "username";
-$userid = 1;
+$userid = 1;    // 회원 정보를 가져 오지 않고 실행 하기 때문에 1로 고정
 $memoid = $_GET['memoid'];
 require "dbconfig.php";
 
@@ -19,11 +19,11 @@ require "dbconfig.php";
 <body>
     <table>
         <tr>
-        <th>제목</th><th>생성일<br>최종수정일</th><th>사용자이름</th><th></th><th></th><th></th>
+        <th>제목</th><th>생성일<br>최종수정일</th><th>변경유형</th><th></th><th></th><th></th>
         </tr>
         <?php
         //    $sql = "SELECT * FROM toymemoupdate where memoid=".$memoid;
-           $sql = "select toymemo.subject, toymemo.contents, toymemoupdate.modifydate from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
+           $sql = "select toymemo.subject, toymemo.contents, toymemoupdate.modifydate, toymemoupdate.subject, toymemoupdate.contents, toymemoupdate.modify from toymemo LEFT join toymemoupdate on toymemo.memoid = toymemoupdate.memoid where toymemo.memoid =".$memoid." order by modifydate desc";
 
            $resultset = $conn->query($sql);
 
@@ -31,6 +31,7 @@ require "dbconfig.php";
             while( $row = $resultset->fetch_assoc() ) {
                 $subject = $row['subject'];
                 $modifydate = $row['modifydate'];
+                $modify = $row['modify'];
                 if(empty($modifydate)) {
                     $modifydate = "수정이력이 없습니다.";
                 }
@@ -45,6 +46,7 @@ require "dbconfig.php";
                 echo "<td>";
                 echo "</td>";
                 echo "<td>";
+                echo $modify;
                 echo "</td>";
                 echo "<td>";
                 echo "</td>";
@@ -52,28 +54,7 @@ require "dbconfig.php";
                 echo "</td>";
                 echo "</tr>";
              } 
-            } else {
-                $subject = $row['subject']."수정이력이 없습니다.";
-                $modifydate = "수정이력이 없습니다.";
-                echo "<tr>";
-                echo "<td>";
-                echo $subject;
-                echo "</a>";
-                echo "</td>";
-                echo "<td>";
-                echo $modifydate."<br>";
-                echo "</td>";
-                echo "<td>";
-                echo "</td>";
-                echo "<td>";
-                echo "</td>";
-                echo "<td>";
-                echo "</td>";
-                echo "<td>";
-                echo "</td>";
-                echo "</tr>";
-
-        }
+            } 
         ?>
     </table>
     <table>
