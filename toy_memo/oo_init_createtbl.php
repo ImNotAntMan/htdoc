@@ -109,5 +109,6 @@
 // header('Location: index.php');
 // 작업 실행 단계별 메시지 확인을 위해 Confrim and return to back하도록 수정함!!
 // 백그라운드로 처리되도록 할 경우 위 코드로 대체 할 것!!
+echo "<script>location.href='index.php'</script>";
 echo "<a href='./index.php'>Confirm and Return to back</a>";
 ?>
